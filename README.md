@@ -1,3 +1,4 @@
+![Project overview](readme.png)
 # Nero Platform — Project Overview
 
 This repository contains the Nero platform: a Django-based system for clinic/patient management, communication, posting, reviews, and recommendations.
