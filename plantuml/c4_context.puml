@@ -1,0 +1,28 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "End User", "A patient or clinic staff using the NERO web app via browser or mobile")
+System(webapp, "NERO Web App", "Django application serving web UI, APIs and real-time chat")
+System_Ext(cdn, "Image CDN", "External avatar/image provider")
+System_Ext(fonts, "Google Fonts", "External font provider")
+System_Ext(email, "SMTP / Email Service", "Sends transactional emails")
+
+Rel(user, webapp, "Uses via browser / PJAX navigation / forms")
+Rel(user, cdn, "Loads avatars/images (direct from client)")
+Rel(user, fonts, "Loads fonts")
+Rel(webapp, email, "Sends notification emails")
+
+Container(webapp_app, "Web App (Django)", "Python/Django", "Serves HTML templates, REST endpoints, and WS endpoints via ASGI")
+ContainerDb(db_sqlite, "SQLite (dev)", "SQLite", "Local relational DB (dev); stores users, clinics, posts, reviews")
+Container(webapp_static, "Static & Media", "Nginx / storage", "Serves static files, media and uploaded assets")
+Container(webapp_chat, "Chat Service", "Django Channels / ASGI", "Handles WebSocket connections for realtime chat")
+
+Rel(user, webapp_static, "GET /static/*, /media/*")
+Rel(webapp_app, db_sqlite, "Reads/Writes via Django ORM")
+Rel(webapp_app, webapp_chat, "Publishes/consumes realtime events")
+
+
+SHOW_LEGEND()
+@enduml

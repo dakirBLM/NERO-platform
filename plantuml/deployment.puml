@@ -1,0 +1,64 @@
+@startuml
+title NERO — Deployment & Network Diagram
+
+actor "End User\n(Browser / Mobile)" as User
+
+node "Internet" as Internet {
+  node "Load Balancer / Reverse Proxy\n(e.g., nginx)" as LB {
+    component "TLS termination / gzip / static cache" as TLS
+  }
+}
+
+node "App Hosts / Servers" as Hosts {
+  folder "Application" {
+    node "gunicorn / uWSGI workers" as AppServer
+    node "Django ASGI (channels)" as ASGI
+  }
+  folder "Optional Cache" {
+    database "Redis / Memcached" as Cache
+  }
+  folder "Persistence" {
+    database "Postgres (prod)" as Postgres
+    database "SQLite (dev)" as Sqlite
+  }
+}
+
+node "Object Storage / CDN" as Storage {
+  component "S3 / MinIO / CDN" as S3
+}
+
+cloud "External Services" {
+  component "SMTP / Email Service" as Email
+  component "Image CDN" as CDN
+}
+
+' Network flows and ports
+User --> LB : HTTPS (443)
+LB --> AppServer : HTTP (8000) or UDS
+AppServer --> ASGI : internal calls / background tasks
+ASGI --> Cache : Redis (6379)
+AppServer --> Postgres : Postgres (5432)
+AppServer --> S3 : upload/download media (443)
+AppServer --> Email : SMTP (587/465)
+User --> CDN : GET /images/* (443)
+
+' Static handling
+LB --> Storage : serve cached static files
+
+' Notes
+note right of LB
+  - TLS termination
+  - HTTP/2
+  - Cache static responses
+  - Redirects to canonical host
+end note
+
+note right of AppServer
+  Typical prod stack:
+  - gunicorn + supervisor / systemd
+  - Django settings: DEBUG=False
+  - collectstatic used to push static files to CDN or served by nginx
+end note
+
+skinparam componentStyle rectangle
+@enduml

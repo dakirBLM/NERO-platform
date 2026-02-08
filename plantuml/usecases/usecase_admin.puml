@@ -1,0 +1,26 @@
+@startuml
+left to right direction
+skinparam dpi 150
+
+actor Admin as A
+rectangle "Admin / Moderator Use Cases" {
+  usecase UC1 as "Manage Users (patients & clinics)"
+  usecase UC2 as "Moderate Posts & Reviews"
+  usecase UC3 as "Manage Content & Static Pages"
+  usecase UC4 as "View Site Analytics & Reports"
+  usecase UC5 as "Manage Recommendations / Tuning"
+  usecase UC6 as "Manage System Settings / Deploy"
+}
+
+A --> UC1
+A --> UC2
+A --> UC3
+A --> UC4
+A --> UC5
+A --> UC6
+
+note right of UC2
+  Remove abusive content, approve featured posts
+end note
+
+@enduml

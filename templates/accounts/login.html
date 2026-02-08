@@ -1,0 +1,590 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - NERO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png"  href="{% static 'n.png' %}" >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #6CA8C9 0%, #6CA8C9 30%, white 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ================= NAV BAR ================= */
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Logo - Made White */
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: brightness(0) invert(1);
+        }
+
+        .logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Navigation link */
+        .nav-link {
+            border: 3px solid white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* ================= LOGIN CONTAINER ================= */
+        .login-container {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 480px;
+            margin: 30px auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Back Link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #6CA8C9;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #2c5282;
+            gap: 15px;
+        }
+
+        /* Login Header */
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #2c5282;
+        }
+
+        .login-subtitle {
+            color: #4a5568;
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        /* ================= FORM STYLES ================= */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c5282;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #6CA8C9;
+            box-shadow: 0 0 0 3px rgba(108, 168, 201, 0.2);
+        }
+
+        /* ================= BUTTONS ================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: #6CA8C9;
+            color: white;
+            box-shadow: 0 8px 25px rgba(108, 168, 201, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #5a97b8;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(108, 168, 201, 0.4);
+        }
+
+        /* ================= LINKS SECTION ================= */
+        .links-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .links-text {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            color: #6CA8C9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .link:hover {
+            color: #2c5282;
+            background: rgba(108, 168, 201, 0.1);
+        }
+
+        .link-divider {
+            color: #e2e8f0;
+            font-weight: 300;
+        }
+
+        /* ================= FOOTER ================= */
+        .footer {
+            background: #2c5282;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .footer p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer a:hover {
+            opacity: 1;
+        }
+
+        /* ================= ERROR MESSAGES ================= */
+        .error-message {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+            color: #dc2626;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .error-message strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .error-message ul {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+
+        .error-message li {
+            margin-bottom: 5px;
+        }
+
+        /* ================= ANIMATIONS ================= */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* ================= RESPONSIVE DESIGN ================= */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 16px 20px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+            }
+            
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .login-container {
+                padding: 36px 20px;
+                margin: 18px;
+                max-width: 420px;
+            }
+            
+            .login-title {
+                font-size: 32px;
+            }
+            
+            .links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .link-divider {
+                display: none;
+            }
+            
+            .btn {
+                padding: 16px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 12px 16px;
+                align-items: center;
+            }
+
+            .nav-link {
+                padding: 8px 16px;
+                font-size: 14px;
+                align-self: center;
+                width: auto;
+            }
+            
+            .login-container {
+                padding: 24px 16px;
+            }
+            
+            .login-title {
+                font-size: 28px;
+            }
+            
+            .login-subtitle {
+                font-size: 16px;
+            }
+            
+            .form-control {
+                padding: 14px 16px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+            
+            .link {
+                font-size: 15px;
+            }
+        }
+
+        /* Ensure links and logo don't overflow on very small devices */
+        @media (max-width: 360px) {
+            .logo-container { width: 84px; height: 84px; }
+            .login-container { margin: 12px; padding: 20px 12px; }
+            .nav-link { padding: 8px 12px; font-size: 14px; }
+        }
+
+        /* ================= REMEMBER ME CHECKBOX ================= */
+        .remember-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .remember-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .remember-label {
+            font-size: 15px;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        /* ================= FORGOT PASSWORD ================= */
+        .forgot-password {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .forgot-link {
+            color: #6CA8C9;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #2c5282;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="{% static 'logo1.png' %}" class="logo" alt="NERO Logo">
+        </div>
+        <a href="{% url 'choice_page' %}" class="nav-link">
+            Get Started
+        </a>
+    </nav>
+
+    <!-- Login Container -->
+    <div class="login-container fade-in">
+        <a href="{% url 'choice_page' %}" class="back-link">
+            ← Back to Choices
+        </a>
+
+        <div class="login-header">
+            <h1 class="login-title">Login to NERO</h1>
+            <p class="login-subtitle">Access your medical platform account</p>
+        </div>
+
+        <!-- Error Messages -->
+        {% if form.errors %}
+        <div class="error-message">
+            <strong>Please correct the following errors:</strong>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if request.blocked_remaining %}
+        <div class="error-message">
+            <strong>Too many failed login attempts</strong>
+            <p>Your IP has been temporarily blocked due to multiple failed login attempts. Please try again later.</p>
+            <p>Time remaining: {{ request.blocked_remaining }} seconds.</p>
+        </div>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" 
+                       placeholder="Enter your username" required
+                       {% if form.username.value %}value="{{ form.username.value }}"{% endif %}>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" 
+                       placeholder="Enter your password" required>
+                
+                <div class="forgot-password">
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+            </div>
+
+            <!-- Remember Me Checkbox -->
+            <div class="remember-group">
+                <input type="checkbox" id="remember" name="remember" class="remember-checkbox">
+                <label for="remember" class="remember-label">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Login to Account
+            </button>
+        </form>
+
+        <!-- Signup Links -->
+        <div class="links-section">
+            <p class="links-text">Don't have an account?</p>
+            <div class="links">
+                <a href="{% url 'patient_signup' %}" class="link">Sign up as Patient</a>
+                <span class="link-divider">|</span>
+                <a href="{% url 'clinic_signup' %}" class="link">Sign up as Clinic</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 NERO Medical Platform. All rights reserved.</p>
+        <p>Need help? <a href="mailto:support@nero-medical.com">Contact our support team</a></p>
+    </footer>
+
+    <script>
+        // Form input focus effects
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.form-label').style.color = '#6CA8C9';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.form-label').style.color = '#2c5282';
+            });
+        });
+
+        // Button hover effects
+        document.querySelector('.btn-primary').addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px)';
+        });
+        
+        document.querySelector('.btn-primary').addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+
+        // Link hover effects
+        document.querySelectorAll('.link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = '#2c5282';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.color = '#6CA8C9';
+            });
+        });
+
+        // Back link hover effect
+        document.querySelector('.back-link').addEventListener('mouseenter', function() {
+            this.style.gap = '15px';
+        });
+        
+        document.querySelector('.back-link').addEventListener('mouseleave', function() {
+            this.style.gap = '10px';
+        });
+
+        // Forgot password link functionality
+        document.querySelector('.forgot-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = prompt('Please enter your email address to reset your password:');
+            if (email) {
+                alert('Password reset instructions have been sent to ' + email);
+                // In a real application, you would send a password reset email here
+            }
+        });
+
+        // Auto-focus username field on page load
+        window.addEventListener('load', function() {
+            document.getElementById('username').focus();
+            
+            // Initialize animations
+            document.querySelector('.fade-in').style.opacity = '1';
+            
+            console.log('NERO Login Page loaded successfully');
+        });
+
+        // Logo click to go back to landing page
+        document.querySelector('.logo').addEventListener('click', function() {
+            window.location.href = "{% url 'landing_page' %}";
+        });
+
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                e.preventDefault();
+                alert('Please fill in both username and password fields.');
+                return false;
+            }
+            
+            // Add loading state to button
+            const submitBtn = this.querySelector('.btn-primary');
+            submitBtn.innerHTML = 'Logging in...';
+            submitBtn.disabled = true;
+        });
+
+        // Music controls removed from login page per request
+    </script>
+</body>
+</html>

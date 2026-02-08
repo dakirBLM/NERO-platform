@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+skinparam dpi 150
+
+actor Clinic as C
+rectangle "Clinic Use Cases" {
+  usecase UC1 as "Register / Login"
+  usecase UC2 as "Manage Clinic Profile"
+  usecase UC3 as "Manage Appointments"
+  usecase UC4 as "View Patient Referrals & Records (with consent)"
+  usecase UC5 as "Accept / Reject Patient Requests"
+  usecase UC6 as "Post Updates / Media"
+  usecase UC7 as "Respond to Reviews"
+  usecase UC8 as "Communicate with Patients (Chat)"
+}
+
+C --> UC1
+C --> UC2
+C --> UC3
+C --> UC4
+C --> UC5
+C --> UC6
+C --> UC7
+C --> UC8
+
+note right of UC4
+  Access to patient data is gated by
+  consent and permissions
+end note
+
+@enduml

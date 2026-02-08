@@ -1,0 +1,31 @@
+@startuml
+left to right direction
+skinparam dpi 150
+
+actor Patient as P
+rectangle "Patient Use Cases" {
+  usecase UC1 as "Register / Login"
+  usecase UC2 as "Complete Profile / Upload Records"
+  usecase UC3 as "Search Clinics & View Profiles"
+  usecase UC4 as "Request Recommendation"
+  usecase UC5 as "Book Appointment"
+  usecase UC6 as "Chat with Clinic"
+  usecase UC7 as "View Appointments & Reports"
+  usecase UC8 as "Post Review / Rating"
+}
+
+P --> UC1
+P --> UC2
+P --> UC3
+P --> UC4
+P --> UC5
+P --> UC6
+P --> UC7
+P --> UC8
+
+note right of UC4
+  Recommendation engine uses
+  medical profile + preferences
+end note
+
+@enduml

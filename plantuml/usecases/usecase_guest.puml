@@ -1,0 +1,27 @@
+@startuml
+left to right direction
+skinparam dpi 150
+
+actor Guest as G
+rectangle "Guest / Visitor Use Cases" {
+  usecase UC1 as "Browse Landing & Choice Pages"
+  usecase UC2 as "Search Clinics"
+  usecase UC3 as "View Posts & Reviews"
+  usecase UC4 as "Listen to Background Music"
+  usecase UC5 as "Contact Support / View FAQs"
+  usecase UC6 as "Register / Start Signup"
+}
+
+G --> UC1
+G --> UC2
+G --> UC3
+G --> UC4
+G --> UC5
+G --> UC6
+
+note right of UC4
+  Music persists across PJAX navigation
+  via single audio element + localStorage
+end note
+
+@enduml

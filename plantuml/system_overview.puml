@@ -1,0 +1,77 @@
+@startuml
+title NERO — System Overview
+
+actor "End User\n(Browser / Mobile)" as User
+
+package "Client" {
+  node "Browser / Client" as Browser {
+    component "Frontend UI\n(React App / Django templates / PJAX)\n- Choice/Landing pages\n- Music toggle (localStorage)\n- Static assets (JS/CSS)" as Frontend
+    component "LocalStorage\n(music playback state)" as LocalStorage
+  }
+}
+
+package "Server" {
+  node "NERO Web App\n(Django - Nero_platform)" as WebApp {
+    component "ASGI / WSGI\nEntry (views, urls)" as Entry
+    package "Django Apps" {
+      component "accounts" as Accounts
+      component "patients" as Patients
+      component "clinics" as Clinics
+      component "posts" as Posts
+      component "reviews" as Reviews
+      component "recommendations" as Reco
+      component "chat (real-time)" as Chat
+    }
+    component "Static & Media Handler\n(staticfiles, media/ uploads)" as StaticMedia
+  }
+}
+
+database "SQLite\n(db.sqlite3)" as DB
+
+cloud "External Services" {
+  component "Image CDN\n(e.g., pravatar.cc)" as CDN
+  component "Google Fonts" as Fonts
+  component "SMTP / Email Service" as Email
+}
+
+' Client <> Server flows
+User --> Frontend : HTTP(S) / UI interactions
+Frontend --> Entry : HTTP(S) requests (PJAX fetch, form submits, API)
+Entry --> Accounts : auth / session
+Entry --> Clinics : clinic management
+Entry --> Patients : patient profiles
+Entry --> Posts : create/view posts
+Entry --> Reviews : submit/read reviews
+Entry --> Reco : recommendation queries
+Entry --> Chat : chat endpoints / websocket handshake
+
+' Persistence
+Entry --> DB : ORM / SQL read & write
+WebApp --> StaticMedia : serve/store media & static assets
+Frontend --> StaticMedia : GET /static/* or /media/*
+
+' Real-time
+Frontend <-- Chat : WebSocket (ASGI) — real-time messages/events
+
+' External
+Frontend --> CDN : load external avatar images
+Frontend --> Fonts : load Google Fonts
+WebApp --> Email : send notifications / emails
+
+' Playback persistence detail
+note right of LocalStorage
+  Music playback state stored in
+  localStorage (time, playing flag).
+  PJAX navigation reuses a single
+  audio element; state restored from
+  localStorage to avoid restart.
+end note
+
+' High-level interactions
+User --> Frontend : click music toggle (user gesture)
+Frontend ..> LocalStorage : save playback time & playing flag
+Frontend ..> Entry : navigation requests (PJAX)
+Entry ..> Frontend : HTML / JSON responses
+
+skinparam componentStyle rectangle
+@enduml

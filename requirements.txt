@@ -1,0 +1,5 @@
+# Project dependencies
+# Add other project dependencies as needed; this file lists minimal additions for Argon2 support
+argon2-cffi>=21.3.0
+cryptography>=3.4.7
+pyOpenSSL>=23.0.0
