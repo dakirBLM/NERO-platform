@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #a1c7dc 0%, #0680ec 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #2450a0 100%);
+            color: white;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+        }
+
+        .form-content {
+            padding: 40px 32px;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 14px;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group label .required {
+            color: #e53e3e;
+            margin-left: 2px;
+        }
+
+        .form-group select,
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background-color: #f7fafc;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .help-text {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .help-text::before {
+            content: "ℹ️";
+            margin-right: 6px;
+        }
+
+        .date-time-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #4ba0a2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f7fafc;
+            border-color: #cbd5e0;
+        }
+
+        @media (max-width: 640px) {
+            .date-time-group {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column-reverse;
+            }
+
+            .form-content {
+                padding: 32px 24px;
+            }
+
+            .header {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+
+        .icon {
+            display: inline-block;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Book Appointment</h1>
+            <p>{{ clinic.clinic_name }}</p>
+        </div>
+
+        <form method="post" class="form-content">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_medical_record">
+                    <span class="icon">📋</span>
+                    Select Medical Record
+                    <span class="required">*</span>
+                </label>
+                {{ form.medical_record }}
+                <div class="help-text">
+                    Incompatible records are marked and cannot be booked with this clinic.
+                </div>
+            </div>
+
+            <div class="date-time-group">
+                <div class="form-group">
+                    <label for="id_appointment_date">
+                        <span class="icon">📆</span>
+                        Appointment Date
+                        <span class="required">*</span>
+                    </label>
+                    {{ form.appointment_date }}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_appointment_time">
+                        <span class="icon">🕐</span>
+                        Appointment Time
+                        <span class="required">*</span>
+                    </label>
+                    {{ form.appointment_time }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_notes">
+                    <span class="icon">📝</span>
+                    Additional Notes
+                </label>
+                {{ form.notes }}
+                <div class="help-text">
+                    Share any relevant information about your visit (optional)
+                </div>
+            </div>
+
+            <div class="button-group">
+                <a href="#" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">
+                    Book Appointment
+                </button>
+            </div>
+                </form>
+            </div>
+            <script>
+                (function() {
+                    const dateInput = document.getElementById('id_appointment_date');
+                    if (!dateInput) return;
+                    const today = new Date();
+                    const yyyy = today.getFullYear();
+                    const mm = String(today.getMonth() + 1).padStart(2, '0');
+                    const dd = String(today.getDate()).padStart(2, '0');
+                    const min = yyyy + '-' + mm + '-' + dd;
+                    dateInput.setAttribute('min', min);
+                    if (dateInput.value && dateInput.value < min) {
+                        dateInput.value = min;
+                    }
+                })();
+            </script>
+</body>
+</html>

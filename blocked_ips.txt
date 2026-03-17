@@ -1,0 +1,21 @@
+# NERO Platform - Blocked IP Addresses
+# Auto-generated on: Sat Feb 28 16:20:57 CET 2026
+# Total blocked IPs found: 1
+#
+# Legend:
+# PERMANENT = Permanently blocked (3+ violations)
+# TEMP = Temporarily blocked (active in cache)
+# MONITORED = Being tracked (1-2 blocks)
+#
+# Management commands:
+# View all: python3 manage.py view_blocked_ips
+# Permanent only: python3 manage.py view_blocked_ips --permanent-only
+# Export JSON: python3 manage.py view_blocked_ips --format json --export-file blocked_ips.json
+# Unblock IP: python3 manage.py view_blocked_ips --unblock IP_ADDRESS
+#
+# ===========================================
+# BLOCKED IP ADDRESSES
+# ===========================================
+
+IP Address,Block Count,Is Permanent,First Blocked,Last Blocked,Reason
+127.0.0.1,1,False,2026-02-28T15:20:10.811388+00:00,2026-02-28T15:20:10.811457+00:00,
